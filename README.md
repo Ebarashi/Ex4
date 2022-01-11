@@ -5,11 +5,7 @@
 
 # The project
 In this project we were asked to implement a Pokemon game, with the purpose to demonstrate the graphs algorithms we've built in our previous assignments.
-in this game there are 15 cases, each with one of 4 graphs, and a different senario. in each case we've had different number of agent, and thier task was to catch as many pokemons as posibble in order to get a maximum grade without exceeding the amount of moves.
-
-
-# The Game - 
-
+in this game there are 15 cases, each with one of 4 graphs, and a different senario. in each case we've had different number of agent, and thier task was to catch as many pokemons as posibble in order to get a maximum grade without exceeding the amount of moves. 
 The game communicate with the server -
 In order to start the communication with the server we need to run the jar file.
 The server write and rewrite the game info. There are different cases with different graphs each case has different number of agent, and our task was to catch as many pokemons as posibble using the algorithm.
