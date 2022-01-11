@@ -1,6 +1,6 @@
 # Ex4 -  Pokemon
 
-**by: Eilon Barashi & Harel Giladi
+** by: Eilon Barashi & Harel Giladi
 
 
 # The project
@@ -16,7 +16,7 @@ The server write and rewrite the game info. There are different cases with diffe
 
 # the algotithm & project structure
 
-+ **for more information check the wiki
+* ** for more information check the wiki
 
 We've used our graphs algorithms in order to find the best path for each agent, in order to maximize the number of pokemons he catchs.
 We place agents on the center node or beside the most valued pokemons using PQ -> we used the function shortest path to find the closest pokemon that wasn't alrady grab -> 
