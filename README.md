@@ -36,6 +36,11 @@ have not visited them and the edges associated with each vertex. for each vertex
 
 
 
+# How to Run 
+
+In the cmd get to the folder of the jar file Write the command: "*java -jar Ex4_Server_v0.0.jar **0 (between 0-15)***" 
+to start communication with the server then run the **Ex4.py** class 
+
 
 
 
