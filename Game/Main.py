@@ -18,8 +18,8 @@ class Main:
         self.info: Info = None
         self.pokemons = []
         self.load_info()
-        self.graphAlgo = GraphAlgo()
-        self.graphAlgo.load_from_json('../' + self.info.graph)
+        self.gA = GraphAlgo()
+        self.gA.load_from_json('../' + self.info.graph)
         self.add_agents()
 
     # load the agents
@@ -33,8 +33,8 @@ class Main:
 
     def add_agents(self):
 
-        self.load_pokemon()
-        center = self.graphAlgo.centerPoint()
+        self.load_pokemons()
+        center = self.gA.centerPoint()
         q = queue.PriorityQueue()
 
         for pok in self.pokemons:
@@ -60,22 +60,22 @@ class Main:
         self.pokemons = []
         for p in json_pokemons["Pokemons"]:
             po = Pokemon(**p["Pokemon"])
-            g = self.graphAlgo.graph
+            g = self.gA.graph
             po.find_location(g)
             self.pokemons.append(po)
 
-    def load(self):
+    def load_all(self):
         self.load_info()
         self.load_agents()
-        self.load_pokemon()
+        self.load_pokemons()
 
     def allocate(self):
         """
         Go through all the agents, in case one of the agents on a node,
-        the function sends it to a function that will locate the nearest
-        Pokemon and update the agent's destination accordingly.
+        the function sends it to a function that will allocate the nearest
+        pokemon and update the agent's dest accordingly.
         """
-        self.load()
+        self.load_all()
         self.total_time = 0
         for agent in self.agents:
             if agent.dest == -1:
@@ -84,11 +84,9 @@ class Main:
     def allocate_pok(self, agent: Agent):
         #
         """
-        The function receives an agent and locates to him the pokemon
-        that the most closer to him and updates the agent's dest accordingly.
-        pokemon that all ready grabbed will not allocate again
-        then return to the client function the next move the agent need to do in order to get the pokemon dest
-        :param agent:
+        The function receives an agent and allocates to him the pokemon that the most closer to him and updates the
+        agent's dest accordingly. pokemon that all ready grabbed will not allocate again then return to the server by
+        the client function the next move the agent need to do in order to get the pokemon dest
         """
         min_time: float = math.inf
         next_edge: int = -1
@@ -96,7 +94,7 @@ class Main:
 
         for p in self.pokemons:
             if not p.grab:
-                temp_dist, path = self.graphAlgo.shortest_path(agent.src, p.edge[0])
+                temp_dist, path = self.gA.shortest_path(agent.src, p.edge[0])
                 time_travel = temp_dist / agent.speed
                 if time_travel < min_time:
                     min_time = time_travel

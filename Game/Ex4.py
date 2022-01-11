@@ -3,14 +3,12 @@ from gui import Gui
 import time
 from client_python.client import Client
 
-# default port
+
 PORT = 6666
-# server host (default localhost 127.0.0.1)
 HOST = '127.0.0.1'
 
 client = Client()
 client.start_connection(HOST, PORT)
-
 gui = Gui(client)
 play = Main(client)
 client.start()
@@ -18,7 +16,7 @@ client.start()
 while client.is_running() == 'true':
     play.allocate()
     gui.draw()
-    play.load()
+    play.load_all()
     time.sleep(0.073)
     client.move()
     time.sleep(0.014)
