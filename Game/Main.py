@@ -3,7 +3,7 @@ import math
 import queue
 from Game.Info import Info
 from client_python.client import Client
-from Pokemon import Pokemon
+from Game.Pokemon import Pokemon
 from Game.Agent import Agent
 from Graph.GraphAlgo import GraphAlgo
 
@@ -14,23 +14,64 @@ class Main:
 
         self.client = client
         self.total_time = 0
+        self.agents = []
         self.info: Info = None
         self.pokemons = []
-        self.agents = []
         self.load_info()
         self.graphAlgo = GraphAlgo()
         self.graphAlgo.load_from_json('../' + self.info.graph)
         self.add_agents()
 
-    # the function update the info, the agents list, and the pokemons list.
+    # load the agents
+    def load_agents(self):
+
+        json_agent = json.loads(self.client.get_agents())
+        self.agents = []
+        for a in json_agent["Agents"]:
+            new_agent = Agent(**a["Agent"])
+            self.agents.append(new_agent)
+
+    def add_agents(self):
+
+        self.load_pokemon()
+        center = self.graphAlgo.centerPoint()
+        q = queue.PriorityQueue()
+
+        for pok in self.pokemons:
+            q.put(pok)
+
+        for i in range(self.info.agents):
+            if self.info.agents == 1 and self.info.pokemons > 3:
+                self.client.add_agent("{\"id\":" + str(center[0]) + "}")
+            elif not q.empty():
+                pok: Pokemon = q.get()
+                self.client.add_agent("{\"id\":" + str(pok.edge[0]) + "}")
+
+    # load game info
+    def load_info(self):
+
+        json_info = json.loads(self.client.get_info())
+        self.info = Info(**json_info["GameServer"])
+
+    # load the pokemons
+    def load_pokemons(self):
+
+        json_pokemons = json.loads(self.client.get_pokemons())
+        self.pokemons = []
+        for p in json_pokemons["Pokemons"]:
+            po = Pokemon(**p["Pokemon"])
+            g = self.graphAlgo.graph
+            po.find_location(g)
+            self.pokemons.append(po)
+
     def load(self):
         self.load_info()
-        self.load_agent()
+        self.load_agents()
         self.load_pokemon()
 
     def allocate(self):
         """
-        Go through all the agents, in case one of the agents is at rest,
+        Go through all the agents, in case one of the agents on a node,
         the function sends it to a function that will locate the nearest
         Pokemon and update the agent's destination accordingly.
         """
@@ -65,53 +106,9 @@ class Main:
                     else:
                         next_edge = path[1]
         self.total_time += min_time
-        # if p_ans.value != -1:
-        #     self.pokemons.remove(p_ans)
         if p_ans is not None:
             if not p_ans.grab:
                 p_ans.grab = True
-        if agent.src == p_ans.edge[0]:
-            self.client.move()
         self.client.choose_next_edge('{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_edge) + '}')
 
-    def add_agents(self):
 
-        self.load_pokemon()
-        center = self.graphAlgo.centerPoint()
-        q = queue.PriorityQueue()
-
-        for pok in self.pokemons:
-            q.put(pok)
-
-        for i in range(self.info.agents):
-            if self.info.agents == 1 and self.info.pokemons > 3:
-                self.client.add_agent("{\"id\":" + str(center[0]) + "}")
-            if not q.empty():
-                pok: Pokemon = q.get()
-                self.client.add_agent("{\"id\":" + str(pok.edge[0]) + "}")
-
-    # load game info
-    def load_info(self):
-
-        json_info = json.loads(self.client.get_info())
-        self.info = Info(**json_info["GameServer"])
-
-    # load the pokemons
-    def load_pokemon(self):
-
-        json_pokemons = json.loads(self.client.get_pokemons())
-        self.pokemons = []
-        for p in json_pokemons["Pokemons"]:
-            po = Pokemon(**p["Pokemon"])
-            g = self.graphAlgo.graph
-            po.find_location(g)
-            self.pokemons.append(po)
-
-    # load the agents
-    def load_agent(self):
-
-        json_agent = json.loads(self.client.get_agents())
-        self.agents = []
-        for a in json_agent["Agents"]:
-            new_agent = Agent(**a["Agent"])
-            self.agents.append(new_agent)

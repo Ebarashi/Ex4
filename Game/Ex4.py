@@ -12,16 +12,14 @@ client = Client()
 client.start_connection(HOST, PORT)
 
 gui = Gui(client)
-control = Main(client)
+play = Main(client)
 client.start()
 
 while client.is_running() == 'true':
-    control.allocate()
+    play.allocate()
     gui.draw()
-    control.load()
+    play.load()
     time.sleep(0.073)
     client.move()
     time.sleep(0.014)
-
-
 client.stop_connection()

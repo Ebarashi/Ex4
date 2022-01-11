@@ -14,5 +14,5 @@ class Agent:
         t_pos = (float(temp_pos[0]), float(temp_pos[1]), float(temp_pos[2]))
         self.pos = GLocation(t_pos)
         self.location = pos
-        self.collect = []
+
 

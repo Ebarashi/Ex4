@@ -118,7 +118,7 @@ class Gui:
         curr_grade = info.GameServer.grade
 
         self.screen.blit(self.FONT.render('Moves: {}'.format(curr_moves), True, (255, 255, 255)), (175, 15))
-        self.screen.blit(self.FONT.render('Grade: {}'.format(curr_grade), True, (255, 255, 255)), (260, 15))
+        self.screen.blit(self.FONT.render('Grade: {}'.format(curr_grade), True, (255, 255, 255)), (270, 15))
 
 
         # draw edges
