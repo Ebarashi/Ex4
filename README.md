@@ -2,6 +2,7 @@
 
 ***by: Eilon Barashi & Harel Giladi***
 
++ ***for more information check the wiki***
 
 # The project
 In this project we were asked to implement a Pokemon game, with the purpose to demonstrate the graphs algorithms we've built in our previous assignments.
@@ -11,8 +12,6 @@ In order to start the communication with the server we need to run the jar file.
 The server write and rewrite the game info. There are different cases with different graphs each case has different number of agent, and our task was to catch as many pokemons as posibble using the algorithm.
 
 # the algotithm & project structure
-
-+ ***for more information check the wiki***
 
 We've used our graphs algorithms in order to find the best path for each agent, in order to maximize the number of pokemons he catchs.
 We place agents on the center node or beside the most valued pokemons using PQ -> we used the function shortest path to find the closest pokemon that wasn't alrady grab -> 
