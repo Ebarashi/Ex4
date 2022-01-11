@@ -13,6 +13,8 @@ The server write and rewrite the game info. There are different cases with diffe
 
 # the algotithm & project structure
 
+***Algo***
+
 We've used our graphs algorithms in order to find the best path for each agent, in order to maximize the number of pokemons he catchs.
 We place agents on the center node or beside the most valued pokemons using PQ -> we used the function shortest path to find the closest pokemon that wasn't alrady grab -> 
 send the next edge the agent needs to go by using the path list we got and tag the pokemon as grab and so on ->
@@ -32,6 +34,27 @@ have not visited them and the edges associated with each vertex. for each vertex
 @param src
 @param dest
 @return the shortest path from src to dest
+
+
+***Main Structure***
+
+*Ex4_Server_v0.0.jar* - this is the game server, which drive the simulation.
+
+*client* - This class contain the function that communicat with the server.
+
+*Ex4* - This class run the game  - gui and algo - and connect to the server
+
+*gui*- display the game on the screen
+
+*Main* - This class contains all the main function - the algo and load the game info. this class use the client function and update the relevent info to the server - update and Updated the server state
+
+*Agent* - this class represent an agent using that struct that given us as a json str
+
+*Pokemon* - this class represent an Pokemon using that struct that given us as a json str
+
+*DiGraph* - This class represent the graph -> implements the GraphInterface interface.
+
+*GraphAlgo* - this class holds all of the algorithms -> implements the GraphAlgoInterface interface.
 
 
 
